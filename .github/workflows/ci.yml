@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate skill and hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: plugin.json is valid JSON
+        run: python -c "import json;d=json.load(open('plugin.json'));print(d['name'],d['version'])"
+
+      - name: SKILL.md has frontmatter
+        run: |
+          head -1 skills/sql-documenter/SKILL.md | grep -q '^---$' || {
+            echo "::error::SKILL.md is missing YAML frontmatter"; exit 1; }
+          grep -q '^name:' skills/sql-documenter/SKILL.md || {
+            echo "::error::SKILL.md frontmatter has no name"; exit 1; }
+          echo 'SKILL.md frontmatter OK.'
+
+      - name: Hook scripts compile
+        run: |
+          python -m py_compile hooks/*.py
+          for s in hooks/*.sh; do bash -n "$s"; done
+          echo 'Hooks parse cleanly.'
+
+  leak-scan:
+    name: No internal identifiers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan
+        run: |
+          PAT='\b(sg|uk|us|id|st)-db[0-9]\b|wavecell|MessageSphere|WC_[A-Za-z_]+'
+          PAT="$PAT"'|cpaas|CPAAS|8x8|\b(DBV|MSG|DBA)-[0-9]+\b'
+          if grep -rniE "$PAT" . --exclude-dir=.git --exclude-dir=.github; then
+            echo "::error::internal identifier found"; exit 1
+          fi
+          echo 'Leak scan clean.'
