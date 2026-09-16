@@ -1,5 +1,5 @@
 {
-  "name": "sql-documenter",
+  "name": "schemalore",
   "description": "Documents SQL Server database objects in an SSDT project: generates schema documentation, MS_Description extended properties, and stored-procedure headers. Scopes to a branch diff, a schema, or the whole database, asks targeted questions to fill gaps, and emits documentation artifacts plus a pre-commit gate that blocks undocumented objects.",
   "version": "1.0.0",
   "author": {
@@ -7,7 +7,7 @@
     "email": "92191389+Bugzbaggy@users.noreply.github.com",
     "url": "https://github.com/Bugzbaggy"
   },
-  "homepage": "https://github.com/Bugzbaggy/sql-documenter",
+  "homepage": "https://github.com/Bugzbaggy/schemalore",
   "license": "MIT",
-  "skills": ["./skills/sql-documenter"]
+  "skills": ["./skills/schemalore"]
 }

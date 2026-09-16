@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-sql-documenter doc-skeleton generator (example)
+schemalore doc-skeleton generator (example)
 
 Walks AppDb_MSG/<schema>/ (and AppDb_MSG_data/<schema>/) and emits the file tree
-prescribed by .claude/skills/sql-documenter/SKILL.md Phase 4a:
+prescribed by .claude/skills/schemalore/SKILL.md Phase 4a:
 
     docs/schemas/<schema>/
     ├── overview.md      / overview.json
@@ -21,7 +21,7 @@ Deterministic content (parsed from SQL):
       that ARE present -- if not, marked TODO
 
 LLM-required content is left as `<!-- TODO: <what to fill> -->` in markdown
-and `"_todo": "<...>"` in JSON.  Run `/sql-documenter <schema>` after this
+and `"_todo": "<...>"` in JSON.  Run `/schemalore <schema>` after this
 script to fill in semantic descriptions, enum value meanings, schema
 purpose, etc.
 

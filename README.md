@@ -1,4 +1,4 @@
-# sql-documenter
+# schemalore
 
 A [Claude Code](https://claude.com/claude-code) skill that documents SQL Server
 objects in an SSDT database project — schema docs, `MS_Description` extended
@@ -24,15 +24,15 @@ commits so an undocumented object can't land.
 ## Install
 
 ```bash
-/plugin install sql-documenter@Bugzbaggy
+/plugin install schemalore@Bugzbaggy
 ```
 
 ## Use
 
 ```
-/sql-documenter              # document objects changed on this branch vs dev
-/sql-documenter cp           # document every object in the 'cp' schema
-/sql-documenter .            # document the whole database
+/schemalore              # document objects changed on this branch vs dev
+/schemalore cp           # document every object in the 'cp' schema
+/schemalore .            # document the whole database
 ```
 
 The default scope is the branch diff, which is the one you want almost always:

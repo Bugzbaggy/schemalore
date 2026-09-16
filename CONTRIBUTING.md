@@ -1,4 +1,4 @@
-# Contributing to sql-documenter
+# Contributing to schemalore
 
 A Claude Code skill that documents SQL Server SSDT objects and gates commits on documentation coverage.
 
@@ -18,8 +18,8 @@ open an issue before starting anything large.
 ## Getting started
 
 ```bash
-git clone https://github.com/Bugzbaggy/sql-documenter.git
-cd sql-documenter
+git clone https://github.com/Bugzbaggy/schemalore.git
+cd schemalore
 ```
 
 Per-project setup lives in the [README](README.md).

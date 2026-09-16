@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Header autofill for sql-documenter (example)
+Header autofill for schemalore (example)
 
 For an SP / Function / View file with a missing or partial header block,
 inject the standard CLAUDE.md header skeleton:
@@ -14,7 +14,7 @@ inject the standard CLAUDE.md header skeleton:
 
 Only writes fields that are missing -- existing fields are preserved
 verbatim.  The Description / Usage lines are inserted as TODO markers
-(unless the file already had a value); /sql-documenter or the human
+(unless the file already had a value); /schemalore or the human
 developer fills those in.
 
 Idempotent.  Refuses to modify files outside */Stored Procedures/,

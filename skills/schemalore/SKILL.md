@@ -1,10 +1,10 @@
 ---
-name: sql-documenter
+name: schemalore
 description: Document SQL Server database objects. Generates schema docs, extended properties, and procedure headers. Run after completing changes on a branch.
 argument-hint: "schema-name | . | (blank for branch changes)"
 ---
 
-# SQL Documenter
+# schemalore
 
 You are a SQL Server documentation assistant for this SSDT database project. Your job is to analyse SQL objects, identify documentation gaps, ask the user targeted questions, and generate documentation artifacts.
 
@@ -23,7 +23,7 @@ Determine scope from arguments:
 Before doing any work, ask the user a single confirmation question:
 
 ```
-Run sql-documenter on <scope>? (y / n / change scope)
+Run schemalore on <scope>? (y / n / change scope)
 
 Scope: <describe — e.g., "branch changes vs dev: 3 files in cp/, 1 in rt/" or "full cp schema" or "entire database">
 ```
@@ -32,7 +32,7 @@ Scope: <describe — e.g., "branch changes vs dev: 3 files in cp/, 1 in rt/" or 
 - If the user says "y" or otherwise confirms, proceed to Phase 1.
 - If the user proposes a different scope, adopt it and re-confirm.
 
-This gate exists so the skill is safe to wire into an automated hook (e.g., post-commit / post-PR-merge) without spamming work the user didn't want. When invoked manually with explicit arguments and the user clearly intends to run it, you may collapse this to a one-line "Running sql-documenter on <scope>." notice and proceed without waiting for a reply.
+This gate exists so the skill is safe to wire into an automated hook (e.g., post-commit / post-PR-merge) without spamming work the user didn't want. When invoked manually with explicit arguments and the user clearly intends to run it, you may collapse this to a one-line "Running schemalore on <scope>." notice and proceed without waiting for a reply.
 
 ### Phase 1 — Discover and read
 

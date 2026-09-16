@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please **do not open a public issue** for a security problem. Use GitHub's
-[private vulnerability reporting](https://github.com/Bugzbaggy/sql-documenter/security/advisories/new)
+[private vulnerability reporting](https://github.com/Bugzbaggy/schemalore/security/advisories/new)
 instead.
 
 ## Scope note for contributors
