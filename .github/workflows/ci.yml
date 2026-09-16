@@ -21,9 +21,9 @@ jobs:
 
       - name: SKILL.md has frontmatter
         run: |
-          head -1 skills/sql-documenter/SKILL.md | grep -q '^---$' || {
+          head -1 skills/schemalore/SKILL.md | grep -q '^---$' || {
             echo "::error::SKILL.md is missing YAML frontmatter"; exit 1; }
-          grep -q '^name:' skills/sql-documenter/SKILL.md || {
+          grep -q '^name:' skills/schemalore/SKILL.md || {
             echo "::error::SKILL.md frontmatter has no name"; exit 1; }
           echo 'SKILL.md frontmatter OK.'
 

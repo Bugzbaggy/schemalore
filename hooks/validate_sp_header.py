@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-sql-documenter rule-checker (Claude-driven, example)
+schemalore rule-checker (Claude-driven, example)
 
 Delegates rule-checking to Claude itself.  No regex inside this validator.
-The rules live ONLY in CLAUDE.md and `.claude/skills/sql-documenter/SKILL.md`
+The rules live ONLY in CLAUDE.md and `.claude/skills/schemalore/SKILL.md`
 -- this script reads both files verbatim and asks Claude to apply them to
 the staged SQL files, returning a structured JSON list of findings via the
 Anthropic tool-use feature (the `report_findings` tool).
@@ -67,7 +67,7 @@ MAX_TOKENS = 2048
 # machine-checkable rules from them.
 RULE_FILES = (
 	"CLAUDE.md",
-	".claude/skills/sql-documenter/SKILL.md",
+	".claude/skills/schemalore/SKILL.md",
 )
 
 
@@ -162,7 +162,7 @@ REPORT_FINDINGS_TOOL = {
 	"description": (
 		"Report rule violations against the staged SQL files.  Each "
 		"finding cites a single rule from CLAUDE.md or "
-		".claude/skills/sql-documenter/SKILL.md.  Use ERROR severity "
+		".claude/skills/schemalore/SKILL.md.  Use ERROR severity "
 		"only when the rule text uses NEVER / MUST NOT (e.g., the "
 		"CLAUDE.md Author Guidelines forbidding Claude as an author "
 		"name).  Use WARN for every other deterministic gap."
@@ -289,7 +289,7 @@ def build_messages(repo_root: Path, files: List[Path], rules: str
 				"You are a deterministic rule-checker for the AppDb_MSG / "
 				"AppDb_MSG_data SSDT database project.  Your job is to apply "
 				"the documentation and SSDT rules from CLAUDE.md and "
-				".claude/skills/sql-documenter/SKILL.md to the staged SQL "
+				".claude/skills/schemalore/SKILL.md to the staged SQL "
 				"files supplied by the user, then call the `report_findings` "
 				"tool with one entry per rule violation.\n\n"
 				"## Severity model\n"
@@ -438,7 +438,7 @@ def print_findings(findings: List[dict]) -> Tuple[int, int]:
 			"Bypass (discouraged; CI reports errors as warnings): git commit --no-verify"
 		)
 	else:
-		print("[doc-check] Non-blocking -- run /sql-documenter to fix.")
+		print("[doc-check] Non-blocking -- run /schemalore to fix.")
 
 	return len(errors), len(warnings)
 
@@ -447,7 +447,7 @@ def main() -> int:
 	parser = argparse.ArgumentParser(
 		prog="validate_sp_header",
 		description=(
-			"Claude-driven sql-documenter rule checker.  Reads CLAUDE.md "
+			"Claude-driven schemalore rule checker.  Reads CLAUDE.md "
 			"and SKILL.md as the rule source of truth, sends staged SQL "
 			"files to Claude, and returns structured findings."
 		),

@@ -5,10 +5,10 @@
 # Modes:
 #   (default) check   — compares a fingerprint of the branch's *.sql changes
 #       (vs BASE_BRANCH, including staged and working-tree edits) against the
-#       fingerprint recorded the last time /sql-documenter completed. On a
+#       fingerprint recorded the last time /schemalore completed. On a
 #       mismatch, or when no fingerprint is recorded, the commit is blocked
 #       with instructions.
-#   --mark-done       — records the current fingerprint. The /sql-documenter
+#   --mark-done       — records the current fingerprint. The /schemalore
 #       skill runs this as its final step after refreshing the docs; run it
 #       manually only if the docs are already accurate.
 #
@@ -58,7 +58,7 @@ if [ -z "$MERGE_BASE" ]; then
 fi
 
 # All *.sql files changed on the branch: commits since the merge base plus
-# staged and working-tree edits (i.e., what /sql-documenter would document).
+# staged and working-tree edits (i.e., what /schemalore would document).
 # Exclude non-schema SQL — tSQLt tests (tests/**) and local-test helper/seed
 # scripts (local-test/**) are not schema objects and have no docs/schemas/ entry.
 SQL_PATHSPEC=("*.sql" ":(exclude)tests/**" ":(exclude)local-test/**")
@@ -88,7 +88,7 @@ fi
 echo "[sql-doc-gate] BLOCKED — $COUNT .sql file(s) changed on '$BRANCH' are not yet documented:"
 printf '%s\n' "$CHANGED_FILES" | sed 's/^/    /'
 echo ""
-echo "  Run /sql-documenter (no arguments) in Claude Code to document the branch"
+echo "  Run /schemalore (no arguments) in Claude Code to document the branch"
 echo "  changes. Its final step re-arms this gate; then retry the commit."
 echo "  If the docs are already accurate: bash .githooks/sql-doc-gate.sh --mark-done"
 echo "  Bypass once (discouraged): git commit --no-verify"
