@@ -41,7 +41,8 @@ jobs:
       - name: Scan
         run: |
           PAT='\b(sg|uk|us|id|st)-db[0-9]\b|wavecell|MessageSphere|WC_[A-Za-z_]+'
-          PAT="$PAT"'|cpaas|CPAAS|8x8|\b(DBV|MSG|DBA)-[0-9]+\b'
+          PAT="$PAT"'|cpaas|CPAAS|8x8|\b(DBV|MSG|DBA)-[0-9]+\b|aps1\.ad'
+          PAT="$PAT"'|AccountWallet|WalletStatus|\b(cp|rt|ms|cls|map|tmpl)\.[A-Za-z_]{3,}'
           if grep -rniE "$PAT" . --exclude-dir=.git --exclude-dir=.github; then
             echo "::error::internal identifier found"; exit 1
           fi

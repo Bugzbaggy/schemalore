@@ -25,7 +25,7 @@ Before doing any work, ask the user a single confirmation question:
 ```
 Run schemalore on <scope>? (y / n / change scope)
 
-Scope: <describe — e.g., "branch changes vs dev: 3 files in cp/, 1 in rt/" or "full cp schema" or "entire database">
+Scope: <describe — e.g., "branch changes vs dev: 3 files in core/, 1 in route/" or "full core schema" or "entire database">
 ```
 
 - If the user says "n" or declines, stop immediately and do nothing else.
@@ -78,27 +78,27 @@ I've identified gaps in <N> objects. To fill them, I need two things:
 These are read-only. Run against dev if possible, prod if dev is empty/unrepresentative. Mark which environment you used.
 
 ```sql
--- Q1: Distribution of cp.AccountWallet.WalletStatus values (to document the enum)
-SELECT WalletStatus, COUNT(*) AS RowCount
-FROM cp.AccountWallet
-GROUP BY WalletStatus
+-- Q1: Distribution of core.AccountBalance.BalanceStatus values (to document the enum)
+SELECT BalanceStatus, COUNT(*) AS RowCount
+FROM core.AccountBalance
+GROUP BY BalanceStatus
 ORDER BY RowCount DESC;
 
--- Q2: Row count + date range for cp.AccountWallet (sizing context for docs)
+-- Q2: Row count + date range for core.AccountBalance (sizing context for docs)
 SELECT COUNT(*) AS Rows,
        MIN(CreatedDate) AS Earliest,
        MAX(CreatedDate) AS Latest
-FROM cp.AccountWallet;
+FROM core.AccountBalance;
 
--- Q3: Sample rows for cp.AccountWallet (to sanity-check column descriptions)
-SELECT TOP 5 * FROM cp.AccountWallet ORDER BY 1 DESC;
+-- Q3: Sample rows for core.AccountBalance (to sanity-check column descriptions)
+SELECT TOP 5 * FROM core.AccountBalance ORDER BY 1 DESC;
 ```
 
 ### B. Human questions
 
-1. **cp.AccountWallet** — what is the business purpose of `ThresholdAmount`? (Probe Q1 will resolve the WalletStatus enum.)
-2. **cp.Account_BalanceAlert_Update** — typical realistic parameter values for the Usage line?
-3. **rt schema overview** — one-line description of what `rt` is responsible for?
+1. **core.AccountBalance** — what is the business purpose of `ThresholdAmount`? (Probe Q1 will resolve the BalanceStatus enum.)
+2. **core.Account_BalanceAlert_Update** — typical realistic parameter values for the Usage line?
+3. **route schema overview** — one-line description of what `route` is responsible for?
 
 Type `skip` at any point to generate docs with what's been answered.
 ```
@@ -382,19 +382,19 @@ After generating all artifacts, present a summary:
 ## Documentation generated
 
 ### Schema docs created/updated
-- docs/schemas/cp/overview.md + overview.json (created)
-- docs/schemas/cp/tables.md + tables.json (updated — added AccountWallet)
-- docs/schemas/cp/procedures.md + procedures.json (created)
+- docs/schemas/core/overview.md + overview.json (created)
+- docs/schemas/core/tables.md + tables.json (updated — added AccountBalance)
+- docs/schemas/core/procedures.md + procedures.json (created)
 
 ### CLAUDE.md updated
-- Added `cp` schema to Documented Schemas list
+- Added `core` schema to Documented Schemas list
 
 ### Headers fixed
-- cp.Account_BalanceAlert_Update: added Usage example
-- rt.Coverage_Lookup: added full header
+- core.Account_BalanceAlert_Update: added Usage example
+- route.Coverage_Lookup: added full header
 
 ### Gaps remaining (logged)
-- docs/schemas/cp/gaps.md: 2 unanswered questions
+- docs/schemas/core/gaps.md: 2 unanswered questions
 ```
 
 ### Phase 6 — Re-arm the pre-commit gate
