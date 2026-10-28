@@ -1,6 +1,6 @@
 ---
 name: schemalore
-description: Document SQL Server database objects. Generates schema docs, extended properties, and procedure headers. Run after completing changes on a branch.
+description: Document SQL Server database objects. Generates schema docs and procedure, function, and view headers. Run after completing changes on a branch.
 argument-hint: "schema-name | . | (blank for branch changes)"
 ---
 
@@ -68,7 +68,7 @@ Some gaps can only be answered by a human (intent, business meaning, ownership).
 
 Format like this:
 
-```
+````
 ## Documentation gaps found
 
 I've identified gaps in <N> objects. To fill them, I need two things:
@@ -101,7 +101,7 @@ SELECT TOP 5 * FROM core.AccountBalance ORDER BY 1 DESC;
 3. **route schema overview** — one-line description of what `route` is responsible for?
 
 Type `skip` at any point to generate docs with what's been answered.
-```
+````
 
 **Rules for probe queries:**
 - Read-only only. Never include INSERT, UPDATE, DELETE, MERGE, DROP, ALTER, TRUNCATE, or any DDL — even speculatively.
@@ -184,7 +184,7 @@ last_updated: <YYYY-MM-DD>
 ```
 
 **`procedures.md`** — All stored procedures, grouped by category with a TOC:
-```markdown
+````markdown
 ---
 schema: <schema>
 type: procedures
@@ -226,7 +226,7 @@ EXEC schema.ProcedureName @Param1 = 'value', @Param2 = 123
 **Granted to:** role_app_controlpanel
 
 ---
-```
+````
 
 Procedure grouping rules:
 - **Runtime**: Procedures called by application services at request time (Get, Insert, Update, Delete, Trigger)

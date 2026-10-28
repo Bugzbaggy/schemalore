@@ -7,10 +7,10 @@ prescribed by .claude/skills/schemalore/SKILL.md Phase 4a:
 
     docs/schemas/<schema>/
     ├── overview.md      / overview.json
-    ├── tables.md        / tables.json
-    ├── procedures.md    / procedures.json
-    ├── views.md         / views.json     (if any)
-    └── functions.md     / functions.json (if any)
+    ├── tables.md        / tables.json     (if any)
+    ├── procedures.md    / procedures.json (if any)
+    ├── views.md         / views.json      (if any)
+    └── functions.md     / functions.json  (if any)
 
 Deterministic content (parsed from SQL):
     - Object inventory (counts, names)
@@ -25,12 +25,12 @@ and `"_todo": "<...>"` in JSON.  Run `/schemalore <schema>` after this
 script to fill in semantic descriptions, enum value meanings, schema
 purpose, etc.
 
-Idempotent: if the docs/<schema>/*.md exists already, this script will
-NOT overwrite it -- pass --force to regenerate.
+Idempotent: if docs/schemas/<schema>/<name>.md already exists, this script
+will NOT overwrite it or its .json twin -- pass --force to regenerate.
 
 Usage:
     gen_doc_skeleton.py <schema> [--force] [--repo-root <path>]
-    gen_doc_skeleton.py --all [--force]            # all schemas under AppDb_MSG/
+    gen_doc_skeleton.py --all [--force]   # all schemas under AppDb_MSG/ and AppDb_MSG_data/
 
 Requires: Python 3.8+, stdlib only.
 """
@@ -633,7 +633,7 @@ def generate_for_schema(repo_root: Path, schema: str, force: bool) -> List[str]:
 def main() -> int:
 	parser = argparse.ArgumentParser(prog="gen_doc_skeleton")
 	parser.add_argument("schema", nargs="?", help="Schema name to scaffold")
-	parser.add_argument("--all", action="store_true", help="Scaffold every schema under AppDb_MSG/")
+	parser.add_argument("--all", action="store_true", help="Scaffold every schema under AppDb_MSG/ and AppDb_MSG_data/")
 	parser.add_argument("--force", action="store_true",
 						help="Overwrite existing markdown / JSON files")
 	parser.add_argument("--repo-root")

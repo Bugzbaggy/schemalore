@@ -8,7 +8,8 @@ instead.
 
 ## Scope note for contributors
 
-This project automates database administration. Treat every example
+This project documents database schemas and hands you read-only probe queries
+to run against your own databases. Treat every example
 connection string, hostname, and account name as a placeholder, and never
 paste real ones into issues, pull requests, or test fixtures — including in
 logs and stack traces attached to bug reports.

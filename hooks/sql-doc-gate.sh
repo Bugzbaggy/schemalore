@@ -12,8 +12,9 @@
 #       skill runs this as its final step after refreshing the docs; run it
 #       manually only if the docs are already accurate.
 #
-# The fingerprint lives under .git/ (per-clone, never committed), so a fresh
-# clone or a new branch always starts un-marked.
+# The fingerprint lives in one file under .git/ (per-clone, never committed),
+# so a fresh clone starts un-marked. It is not per-branch: a new branch whose
+# .sql diff is identical to the last marked one passes; any other diff blocks.
 #
 # Bypass a single commit (discouraged): git commit --no-verify
 

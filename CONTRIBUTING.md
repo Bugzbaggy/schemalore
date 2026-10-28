@@ -1,6 +1,6 @@
 # Contributing to schemalore
 
-A Claude Code skill that documents SQL Server SSDT objects and gates commits on documentation coverage.
+A Claude Code skill that documents SQL Server SSDT objects, with a pre-commit gate that blocks SQL changes until they have been documented.
 
 Contributions are welcome. This project is maintained in spare time, so please
 open an issue before starting anything large.

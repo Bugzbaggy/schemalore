@@ -15,8 +15,9 @@ Why this design
 - No regex edge cases.  Claude understands the difference between a column
   named `created_date` and a header field "Created date:", or between an
   author named "Claude Smith" and the literal AI tool "Claude".
-- Deterministic output.  Tool use forces a strict JSON schema; temperature=0
-  pins token sampling; identical input yields identical output across runs.
+- Stable output.  Tool use forces a strict JSON schema and temperature=0
+  minimises sampling variance (the API does not guarantee identical output
+  across runs, and the CLI fallback sets no temperature).
 
 Auth
 ----
@@ -25,13 +26,14 @@ Tries in order:
      used by CI).
   2. `claude` CLI in headless mode (`claude -p ...`) -> for developers using
      Claude Code OAuth (no separate key required).
-  3. Neither -> prints a one-line "doc validation skipped" notice and
-     exits 0.  CI is the authoritative gate.
+  3. Neither -> prints a short "[doc-check] Skipping -- no Claude auth
+     available" notice and exits 0.  CI is the authoritative gate.
 
 Usage
 -----
     validate_sp_header.py [--json] [--strict-block] [--repo-root <path>]
-                          [--model <id>] <file> [<file> ...]
+                          [--model <id>] [--mock-findings <path>]
+                          <file> [<file> ...]
 
     --json           Emit JSON summary to stdout instead of human text.
     --strict-block   Exit 1 on any warning (default: only ERROR-severity
@@ -39,6 +41,9 @@ Usage
     --repo-root      Repo root.  Default: `git rev-parse --show-toplevel`.
     --model          Claude model id.  Default: claude-haiku-4-5-20251001
                      (fast + cheap; rule-checking doesn't need Opus/Sonnet).
+    --mock-findings  Read findings from a JSON file instead of calling
+                     Claude (test hook: exercises parsing, output and exit
+                     codes only).
 
 Requires: Python 3.8+, stdlib only (urllib + json).
 """
@@ -489,7 +494,7 @@ def main() -> int:
 		return 0
 
 	# Mock mode: bypass Claude and load findings from a fixture file.
-	# Used by the test harness to exercise the parsing/output paths.
+	# Exercises the parsing, output and exit-code paths without a Claude call.
 	if args.mock_findings:
 		try:
 			data = json.loads(Path(args.mock_findings).read_text(encoding="utf-8"))

@@ -6,10 +6,10 @@ For an SP / Function / View file with a missing or partial header block,
 inject the standard CLAUDE.md header skeleton:
 
     -- =============================================
-    -- Author: <git blame full name>
+    -- Author: <author of the commit that added the file>
     -- Created date: <first-commit date YYYY-MM-DD>
     -- Description: <TODO -- one-line summary>
-    -- Usage: <TODO -- realistic EXEC / SELECT example>
+    -- Usage: <TODO -- realistic EXEC or SELECT example>
     -- =============================================
 
 Only writes fields that are missing -- existing fields are preserved
@@ -89,7 +89,8 @@ def parse_existing_header(text: str) -> Tuple[Dict[str, str], int]:
 
 
 def git_blame_author(path: Path) -> Optional[str]:
-	"""Return the most recent contributor's full name, or None."""
+	"""Return the author name of the commit that added the file (the
+	oldest such commit if it was re-added), or None."""
 	try:
 		out = subprocess.run(
 			["git", "log", "--diff-filter=A", "--follow",
@@ -98,9 +99,9 @@ def git_blame_author(path: Path) -> Optional[str]:
 		)
 	except subprocess.CalledProcessError:
 		return None
-	# The last line of `git log --reverse` would be "first author"; without
-	# --reverse we get "newest first".  The intent here is the original
-	# author, so we want the last entry in the log.
+	# With --reverse the first line would be the original author; without
+	# it the log is newest first.  The intent here is the original author,
+	# so we want the last entry in the log.
 	lines = [l for l in out.stdout.splitlines() if l.strip()]
 	if not lines:
 		return None
