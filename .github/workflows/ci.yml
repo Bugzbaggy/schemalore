@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate skill and hooks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: plugin.json is valid JSON
+        run: python -c "import json;d=json.load(open('plugin.json'));print(d['name'],d['version'])"
+
+      - name: SKILL.md has frontmatter
+        run: |
+          head -1 skills/schemalore/SKILL.md | grep -q '^---$' || {
+            echo "::error::SKILL.md is missing YAML frontmatter"; exit 1; }
+          grep -q '^name:' skills/schemalore/SKILL.md || {
+            echo "::error::SKILL.md frontmatter has no name"; exit 1; }
+          echo 'SKILL.md frontmatter OK.'
+
+      - name: Hook scripts compile
+        run: |
+          python -m py_compile hooks/*.py
+          for s in hooks/*.sh; do bash -n "$s"; done
+          echo 'Hooks parse cleanly.'
+
+  leak-scan:
+    name: No internal identifiers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Leak scan self-test
+        run: bash ci/leak-scan.test.sh
+      - name: Scan
+        env:
+          # Named terms live in repository secrets, never in this public file.
+          # Fork pull requests get no secrets, so only trusted runs require them.
+          LEAK_EXTRA_PAT: ${{ secrets.LEAK_EXTRA_PAT }}
+          LEAK_EXTRA_PAT_CS: ${{ secrets.LEAK_EXTRA_PAT_CS }}
+          LEAK_REQUIRE_EXTRAS: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+        run: bash ci/leak-scan.sh
