@@ -1,0 +1,13 @@
+{
+  "name": "schemalore",
+  "description": "Documents SQL Server database objects in an SSDT project: generates schema documentation and procedure, function, and view headers. Scopes to a branch diff, a schema, or the whole database, asks targeted questions to fill gaps, and pairs with a pre-commit gate that blocks a commit until its SQL changes have been documented.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Renz Bagasbas",
+    "email": "92191389+Bugzbaggy@users.noreply.github.com",
+    "url": "https://github.com/Bugzbaggy"
+  },
+  "homepage": "https://github.com/Bugzbaggy/schemalore",
+  "license": "MIT",
+  "skills": ["./skills/schemalore"]
+}
